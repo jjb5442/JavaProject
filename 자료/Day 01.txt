@@ -1,0 +1,75 @@
+Day01
+
+MVC   model   view   control
+
+스프링 프로젝트 설정
+1. pom.xml
+- 버전 및 라이브러리 의존성 추가
+- 자바 버전 : 1.8
+- 스프링 버전 : 4.3.30
+- 빌드 버전 : 1.8
+- 저장 후 atl + F5 후 엔터
+
+com.itbank.ProjectName
+
+2. web.xml
+- 서블릿 버전 : 3.1
+ version="3.1"
+ https://java.sun.com/xml/ns/javaee/web-app_3_1.xsd
+
+- 인코딩 필터 추가
+
+<filter>
+	<filter-name>EncodingFilter</filter-name>
+	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	
+	<init-param>
+		<param-name>encoding</param-name>
+		<param-value>utf-8</param-value>
+	</init-param>
+</filter>
+
+<filter-mapping>
+	<filter-name>EncodingFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+
+Spring -> beans -> servlet-context  =>  controller 변환 확인
+
+main/java project name -> controller
+
+※ pageScope 내장객체 4개
+- pageContext	: 해당 페이지에서만 유지
+- request	: 해당 페이지에서만 유지. 단, 포워드시 다른 페이지에서도 유지
+- session	: 웹 브라우저가 모두 종료될 때까지 유지
+- application	: 서버가 종료될 때까지 유지
+
+maven repository -> xerces -> pom.xml  -> dependency 아래쪽 
+
+스프링 컨트롤러에서 사용된 구문들
+
+1. @Controller
+- Spring Bean 으로 등록하는 어노테이션
+- Bean 으로 등록되어야 스프링이 요청을 처리할 수 있게 됨
+
+2. Controller Method
+ 1) 반환형
+   - String : 리턴되는 문자열이 view의 이름이 된다
+   - void   : 요청한 주소가 view의 이름이 된다
+   - ModelAndView : Model과 view의 이름을 동시에 처리
+     model은 request의 Attribute 설정 대신에 사용
+     setter 나 생성자로 view의 이름을 지정할 수 있다
+
+ 2) 매개변수
+   - HttpServeltRequest, HttpServletSession 
+   - @RequestParam
+      파라미터의 이름과 매개변수 이름이 같으면 매개변수에 모두 받아진다
+      일반적으로 생략 가능  HashMap으로 받을 경우 반드시 작성
+
+
+Home Work 
+
+id : itbank, pw : it 를 전달시 로그인 성공을 출력
+
+
+
