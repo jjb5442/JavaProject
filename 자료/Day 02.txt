@@ -1,0 +1,222 @@
+원본 URL)
+https://1drv.ms/u/s!ArnrGBOOG9lMiOAU9oEjOPFRDDGCPQ?e=zD9TEQ
+
+단축 URL)
+https://url.kr/g6dqjr
+
+패스워드)
+qwe@123
+
+
+Oracle DB 설치
+ - 리눅스 환경에 가상머신으로 설치
+
+1. 웹 서버랑 같은 컴퓨터에 설치 시 성능 및 충돌의 문제가 자주 발생
+
+2. 따라서 우리의 호스트(주인) PC, 즉 window는 tomcat 서버의 역할
+   게스트(손님) PC, 즉 linux는 DB 서버의 역할로 분리 시킨다
+
+3. 간단하게라도 linux를 사용
+
+
+4. VMware 네트워크 세팅
+  메뉴 -> edit -> virtual network edit
+  Change Settings ->  VMnet8 
+  - Subnet IP : 192.168.1.0
+  - Subnet masks : 255.255.255.0
+
+5. 컴퓨터 부팅 - I copied it
+
+6. 계정 - 목록에 없습니까? -> ID : root  PW : 1
+
+7. Oracle DB 설치
+ - 바탕화면에 우클릭 - 터미널 열기 - 스크립트 첫번째를 복사 후 붙여넣기
+ - ping test 완료 후 두 번째를 복사 후 붙여넣기 
+  -> SYS, SYSTEM ~~ 나오면 패스워드를 지정한다. 단, 특수문자는 사용 X
+ - 5442
+ - 완료 후 세번째를 복사 -> 재부팅 되면 설치는 끝
+
+8. sqldeveloper 설치
+  - oracle 새로 만들기
+  - 사용자이름 : system   pw : 5442
+  - 호스트 이름 : VM 주소 ( 192.168.1.100 )
+  - 테스트 클릭 ( 안 보일 시 창 크기 크게 )
+  - 도구 -> 환경설정 -> 환경 : 인코딩 UTF-8 설정 , 글꼴 설정
+
+[ DATABASE - SQL ]
+
+SQL : Structed Query Language
+- DB를 조작하기 위한 프로그램 언어
+
+DDL : Data Definition Language ( 데이터 정의어 )
+ - create	// 데이터베이스 객체를 생성
+ - alter	// 생성된 객체를 변경
+ - drop		// 생성된 DB 객체를 삭제
+
+DML : Data Manipulation Language ( 데이터 조작어 )
+ - select	// 테이블을 조회
+ - insert	// 테이블에 행 추가
+ - delete	// 테이블의 행 제거
+ - update	// 테이블의 행 수정
+
+DCL : Data Control Language ( 데이터 제어어 )
+ - grant	// 권한 부여
+ - revoke	// 권한 회수
+ - commit	// 트랜젝션 적용
+ - rollback	// 트랜젝션 복구
+
+--------------------------------------------------------------------
+
+select * from v$version;
+
+create user c##itbank identified by it;
+-- 계정 생성 명령어
+-- id : c##itbank ( 12c 버전 이후로 일반 계정은 c## 접두어가 붙는다 )
+-- pw : it
+
+grant DBA,RESOURCE,CONNECT to c##itbank;
+-- 접속을 위한 권한 부여
+
+
+
+show user;
+
+select * from tab;
+
+create table test1 (		// 테이블 생성
+    name    varchar2(100),	// 열이름 자료형 [제약 조건]
+    age     number		
+);				// 구문의 마지막엔 세미콜론(;)
+
+desc test1;  		// 지정한 테이블의 열 정보를 출력
+
+select * from test1;	// 지정 테이블의 모든 목록을 출력
+
+insert into test1 values ('A', 1);	// 테이블의 모든 열에 데이터 추가
+insert into test1(name, age) values('B', 2); // 지정한 열에 데이터 추가
+insert into test1(name) values('C');	     // 지정되지 않은열은 null
+insert into test1(age) values(3);
+
+rollback;  // 트랜젝션을 회수
+commit;	   // 트랜젝션을 적용
+
+※ 트랜젝션은 DB의 작업 단위를 의미하며, 이를 회수하면 작업이 취소됨
+
+order by age asc;
+order by age desc;
+
+where name = 'B';
+ - where 조건절
+
+where name is null;
+ - null 판별시엔 is 사용
+ - 반대는 is not 
+
+where name = 'A' and age = 1;
+where name = 'A' or age = 2;
+
+where name like '%A%';
+where name not like '%A%';
+ - %A, A%, _A_
+ - 지정한 패턴 내에 있으면 매칭
+
+test1 where name in ('A', 'C');
+test1 where name not in ('A', 'C');
+ - 지정한 범위 내에 있으면 매칭
+ - 서브 쿼리에 사용
+
+delete from test1 where name = 'A';
+delete from test1 where age < 2;
+delete from test1 where name is null;
+
+delete from test1;
+ - 모든 데이터 삭제
+
+update test1 set name='A', age=1 where name='C';
+update test1 set name='D' where name is null;
+ - 조건에 일치하는 행을 찾아서 행을 수정
+ - 수정하고 싶은 행은 선택적으로 적용 가능
+
+drop table test1;
+ - 테이블 삭제
+
+delete table test1  v.s.  drop table test1
+ - 테이블의 데이터 전체 삭제  /  테이블 자체를 삭제
+
+	
+--------------------------------------------------------------------
+
+maven repository에 
+
+pom.xml
+Spring JDBC 검색 후 4.3.30 버전
+스프링이 DB에 접근하기 위한 기본적인 내용을 담고 있는 라이브러리
+
+Ojdbc8
+오라클 DB에 접근하기 위한 라이브러리 
+
+c3p0
+스프링에서 DB의 Connection을 관리하는 pool을 생성 및 관리하는 라이브러리
+
+Alt + F5
+
+
+Spring poject에서 servlet-context.xml과 root-context.xml
+
+1. servelt-context.xml
+ - 컨트롤러빈을 등록하고 관리한다
+
+2. root-context.xml
+ - 컨트롤러와 관계없는 스프링 빈을 등록하고 관리
+ - Model과 Service를 등록하고 관리
+ - namespace -> context 체크
+
+
+
+@Service		
+ - 순수 자바 로직을 처리할 클래스를 의미
+ - 주로 게시판의 페이징, 패스워드의 암호화 같은 복잡한 로직을 작성할때 사용
+
+@Autowired		
+ - 스프링 컨테이너에서 일치하는 자료형 객체를 자동으로 찾아서 주입
+
+@Repository			
+ - DB 접근 및 처리를 위한 스프링 빈
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

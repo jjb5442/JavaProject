@@ -46,6 +46,9 @@ main/java project name -> controller
 
 maven repository -> xerces -> pom.xml  -> dependency 아래쪽 
 
+* 프로젝트 속성 ->  Spring -> Remove nature 하고 다시 연결
+
+
 스프링 컨트롤러에서 사용된 구문들
 
 1. @Controller
