@@ -13,8 +13,13 @@
 	<!-- 스프링 빈 : 스프링이 등록하고 관리할 객체 -->
 	<bean 	id="dataSource" 
 			class="com.mchange.v2.c3p0.ComboPooledDataSource" 
-			destroy-method="close">
+			destroy-method="close">	
 			
+	<!--
+		destroy-method="close" == connection.close 
+		데이터베이스에 접근할 수 있는 연결 수가 제한 되어 있어서, 항상 연결이 끝나면 끊어주어야함
+	-->
+	
 			<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
 			<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.1.100:1521:xe" />
 			<property name="user" value="c##itbank" />

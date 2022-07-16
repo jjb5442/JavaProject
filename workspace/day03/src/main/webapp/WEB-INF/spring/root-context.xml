@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<context:component-scan base-package="com.itbank.service"/>
+	<context:component-scan base-package="com.itbank.model"/>
+	
+	<!-- 5. namespaces에서 mybatis를 체크 후  -->
+	<!-- 4번에 생성한 설정을 객체(bean)으로 만든다 -->
+	<mybatis-spring:scan base-package="com.itbank.model"/>
+	
+	<!-- 1. DB 접속에 필요한 설정을 객체(bean)로 만들어준다 -->
+	<!-- 자동으로 연결 close -->
+	<bean 	id="HikariConfig" class="com.zaxxer.hikari.HikariConfig" >	
+	
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.1.100:1521:xe" />
+		<property name="username" value="c##itbank" />
+		<property name="password" value="it" />
+			
+	</bean>
+	
+	<!-- 2. 1번의 설절을 주입해서 Connection을 받을 수 있는 객체를 만든다 -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+		<constructor-arg ref="HikariConfig" />	
+	</bean>
+	
+	<!-- 3. 2번의 dataSource를 주입해서, mybatis 기본 객체를 구성한다 -->
+	<bean id ="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>		
+	</bean>
+	
+	<!-- 4. 3번의 SqlSessionFactory를 주입하고, 스프링이 사용할 수 있게 한다 -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="close">
+		<constructor-arg ref="SqlSessionFactory"/>
+	</bean>
+
+	
+</beans>

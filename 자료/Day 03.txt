@@ -1,0 +1,74 @@
+Spring orm
+DB의 객체를 자바 객체로 자동으로 변환 . 즉 mapping을 자동으로 해준다
+
+hikariCP
+c3p0를 대체할 커넥션 풀, spring 버전에 맞춰서 가져오기
+
+mybatis
+DB에 접근하여 데이터 처리하는 과정을 지원하는 지속성 프레임워크
+
+[ Google : spring mybatis 설정 검색 ]
+
+mybatis-spring
+spring에서 mybatis를 좀 더 쉽게 사용할 수 있게 제공하는 라이브러리 
+
+1. DB 접속에 필요한 설정을 객체(bean)로 만들어준다 
+
+2. 1번의 설절을 주입해서 Connection을 받을 수 있는 객체를 만든다 
+
+3. 2번의 dataSource를 주입해서, mybatis 기본 객체를 구성한다
+
+4. 3번의 SqlSessionFactory를 주입하고, 스프링이 사용할 수 있게 한다
+
+5. namespaces에서 mybatis를 체크 후
+   4번에 생성한 설정을 객체(bean)으로 만든다
+
+root-context.xml
+<mybatis-spring:scan base-package="com.itbank.model"/>
+com.itbank.model에 연동하여  mybatis를 사용하게 해줌
+
+
+<c:forEach var="dto" items="${list}"></c:forEach>
+list의 값은 각 열의 주소값이 저장되어 있고,
+dto 변수로 list에 있는 각각의 요소들에 접근
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+JSTL 정보 참조
+
+
+오류
+
+DB가 안 켜진 경우, pom.xml이 제대로 인식이 안 된 경우
+
+
+
+
+select sysdate from dual;
+
+select to_char(sysdate, 'yyyy-mm-dd hh:mi:ss') from dual;
+hh24 -> 2:00 => 14:00
+
+
+create SEQUENCE board_seq
+    start with 1
+    maxvalue 9999999999
+    increment by 1
+    nocycle
+    nocache;
+    
+create table board (
+    idx         NUMBER          default board_seq.nextval primary key,
+    title       varchar2(200)   not null,
+    contents    clob            not null,
+    writer      varchar2(100)   not null,
+    writeDate   date            default sysdate,
+    viewCount   number          default 0
+);
+
+
+
+@PathVariable : 주소상의 특정 값을 매개변수로 받을 수 있다
+
+
+
