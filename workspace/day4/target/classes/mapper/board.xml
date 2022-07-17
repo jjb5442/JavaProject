@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	namespace : 패키지명, 인터페이스명 
+	id : 메서드명
+	parameterType : 매개변수 타입
+	resultType : 반환형. 결과 행이 여러개면 알아서 list로 반환해 줌
+-->
+
+<mapper namespace="com.itbank.model.BoardDAO">
+	<select id="selectBoardAll" 
+			parameterType="hashmap"
+			resultType="com.itbank.model.BoardDTO">
+			
+		select * from board
+			<if test="type != null and !''.equals(type)">
+			    where ${type} like '%${search}%'
+			</if>
+		    order by idx desc
+		        offset #{offset} rows
+    			fetch first #{perPage} rows only
+	</select>	
+	
+	<select id="selectPageCount"
+			parameterType="hashmap"
+			resultType="int">
+			
+			select ceil(count(*) / #{perPage}) from board
+			<if test="type != null and !''.equals(type)">
+				where ${type} like '%${search}%'
+			</if>
+			
+	</select>
+	
+	<!-- 
+		위와 같이 xml을 활용한  mapper 방식은 조건을 사용 가능
+		이를, 동적 SQL이라고 한다
+	 -->
+</mapper>

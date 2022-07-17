@@ -1,0 +1,72 @@
+서버 실행시 오류나면 서버 안에 있는 것 모두 삭제후
+clean server
+
+
+도구 -> 데이터베이스 익스포트 -> 스키마표시 체크 해제 후 나머지 체크
+
+redirect:/board
+이전의 attribute를 전부 삭제하고 전송
+
+
+@Insert 구문 실행 후
+생성된 라인 수를 int 로 전송
+
+market place
+mybatis -> mybatices 설치
+
+
+
+<!-- 3. 2번의 dataSource를 주입해서, mybatis 기본 객체를 구성한다 -->
+	<bean id ="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>		
+	</bean>
+
+src/main/resources/ mapper 폴더 생성
+
+
+
+insert into 
+    board(title, contents, writer)
+    select title, contents, writer from board;
+
+
+select count(*) from board;    
+
+1.
+옛날 쿼리
+select * from
+    (select rownum as r, A.* from
+        (select * from board order by idx desc) A)
+    where r between 11 and 20;
+    
+
+select * from board
+    order by idx desc
+    offset 0 rows		// 뛰어 넘을 row 수
+    fetch first 10 rows only;
+
+2.
+offset	: 전체에서 몇 개를 건너뛰나?
+perPage	: 한 페이지에 몇 개의 게시글을 출력하나
+
+3. 사용자가 특정 페이지를 요청한다
+page	offset
+1	0
+2	10
+3	20
+
+4. 페이지 목록
+select ceil(count(*) / 10) from board;
+
+5. 페이지 범위
+section : 페이지 범위 index
+
+현재 페이지가 1 ~ 10 사이면 1번 index로 취급
+현재 페이지가 11 ~ 20 사이면 2번 index로 취급해서 범위를 나눈다
+
+start	end
+1	10
+
+
+
+

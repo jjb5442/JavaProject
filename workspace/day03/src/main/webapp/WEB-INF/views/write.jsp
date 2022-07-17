@@ -8,18 +8,23 @@
 		<table>
 			<tr>
 				<th>Title</th>
-				<td class="table-column__write">Input Title</td>
+				<td class="table-column__write">
+					<input name="title">
+				</td>
 			</tr>
 			<tr>
 				<th>Author</th>
-				<td class="table-column__write">Input Author</td>
+				<td class="table-column__write">
+					<input name="writer">
+				</td>
 			</tr>
 			<tr id="contents">
-	                <td colspan="2">
-						<pre></pre>
-	                </td>
-	            </tr>
+                <td colspan="2">
+					<textarea></textarea>
+                </td>
+            </tr>
 		</table>
+        <button>Write</button>
 	</div>
 	
 </body>
